@@ -1,12 +1,21 @@
 language: python
 python:
-  - "2.7"
-  - "3.4"
-  - "3.5"
-  - "3.6"      # current default Python on Travis CI
   - "3.7"
-  - "3.8"
-  - "3.9"
-# command to install dependencies
+
 install:
   - pip install -r requirements.txt
+
+before_script:
+  - python manage.py migrate
+
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  region: "us-west-2"
+  app: "django-tutorial1"
+  env: "django-env1"
+  bucket_name: "elasticbeanstalk-us-west-2-851725369846"
+  on:
+    repo: "samkitshah18/swe1-app"
+    branch: "main"
