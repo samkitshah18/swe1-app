@@ -1,6 +1,6 @@
 language: python
 python:
-  - "3.7"
+  - "3.9"
 
 install:
   - pip install -r requirements.txt
@@ -8,6 +8,10 @@ install:
 before_script:
   - python manage.py makemigrations
   - python manage.py migrate
+
+script:
+  - black --check .
+  - flake8 .
 
 deploy:
   provider: elasticbeanstalk
